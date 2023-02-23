@@ -1,0 +1,4 @@
+---
+file:
+  /usr/local/bin/mc:
+    exists: true
