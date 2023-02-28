@@ -1,0 +1,50 @@
+---
+name: "Compare with upstream"
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/**"
+      - "metadata.rules.cue"
+
+jobs:
+  compare-with-upstream:
+    name: "Compare with upstream"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Tools
+        run: npm install -g zx
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate Token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+
+      - name: Checkout upstream
+        id: upstream
+        run: |
+          git remote add -f upstream https://github.com/onedr0p/containers
+          main_branch=$(git remote show upstream | sed -n '/HEAD branch/s/.*: //p') && \
+              echo "main_branch=${main_branch}" >> $GITHUB_OUTPUT
+
+      - name: Get differences
+        id: differences
+        run: ./.github/scripts/upstream-differences.mjs upstream/${{ steps.upstream.outputs.main_branch }}
+
+      - # TODO: switch back to upstream, if https://github.com/JasonEtco/create-an-issue/pull/152 is merged
+        uses: qlonik/create-an-issue@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          JSON_DIFFERENCES: ${{ steps.differences.outputs.differences }}
+        with:
+          filename: .github/ISSUE_TEMPLATE/upstream-differences-dashboard.njk.md
+          update_existing: true
+          search_existing: all
