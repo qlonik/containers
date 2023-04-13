@@ -77,9 +77,9 @@ EOF
   fi
 
   printf "\e[1;32m%-6s\e[m\n" "Adding policy ..."
-  mc admin policy add minio "${MINIO_BUCKET_NAME}-private" /tmp/user-policy.json
+  mc admin policy create minio "${MINIO_BUCKET_NAME}-private" /tmp/user-policy.json
   printf "\e[1;32m%-6s\e[m\n" "Associating policy with the user ..."
-  mc admin policy set minio "${MINIO_BUCKET_NAME}-private" "user=${MINIO_BUCKET_USER}"
+  mc admin policy attach minio "${MINIO_BUCKET_NAME}-private" --user "${MINIO_BUCKET_USER}"
 fi
 # --- USER POLICY -------------
 
