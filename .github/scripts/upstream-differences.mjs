@@ -32,4 +32,10 @@ for (const filename of fileNames) {
   output.push({ filename, diff });
 }
 
-await $`echo 'differences=${JSON.stringify(output)}' >> $GITHUB_OUTPUT`;
+const { stdout: eofStdout } =
+  await $`dd if=/dev/urandom bs=15 count=1 status=none | base64`;
+const eof = eofStdout.trim();
+
+await $`echo differences<<${eof} >> $GITHUB_OUTPUT`;
+await $`echo ${JSON.stringify(output)} >> $GITHUB_OUTPUT`;
+await $`echo ${eof} >> $GITHUB_OUTPUT`;
