@@ -15,11 +15,11 @@ env:
   TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
-  generate-build-matrix:
-    name: Generate matrix for building images
+  determine-images:
+    name: Determine Images to Build
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.fetch.outputs.changes }}
+      imagesToBuild: ${{ steps.fetch.outputs.changes }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -42,11 +42,10 @@ jobs:
 
   images-build:
     uses: ./.github/workflows/action-image-build.yaml
-    if: needs.generate-build-matrix.outputs.matrix != '[]'
-    needs: ["generate-build-matrix"]
+    if: needs.determine-images.outputs.imagesToBuild != '[]'
+    needs: ["determine-images"]
     with:
-      imagesToBuild: "${{ needs.generate-build-matrix.outputs.matrix }}"
+      imagesToBuild: "${{ needs.determine-images.outputs.imagesToBuild }}"
       pushImages: "true"
-      updateMetadata: "true"
       sendNotification: "true"
     secrets: inherit
