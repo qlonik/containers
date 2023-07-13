@@ -32,4 +32,4 @@ for (const filename of fileNames) {
   output.push({ filename, diff });
 }
 
-await $`echo differences=${JSON.stringify(output)} >> $GITHUB_OUTPUT`;
+await $`echo 'differences=${JSON.stringify(output)}' >> $GITHUB_OUTPUT`;
