@@ -12,6 +12,6 @@ RUN \
 
 USER kah
 
-CMD ["npm", "start"]
+CMD ["npm", "start", "--", "--ip", "0.0.0.0"]
 
 LABEL org.opencontainers.image.source="https://github.com/qlonik/webhook2github"
