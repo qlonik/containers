@@ -8,6 +8,7 @@ RUN \
   apk add --no-cache git nodejs npm \
   && git clone https://github.com/qlonik/webhook2github /app \
   && git checkout ${VERSION} \
+  && rm -rf .git \
   && npm ci \
   && install -d -m 0755 -o kah -g kah \
       /app/node_modules/.mf \
