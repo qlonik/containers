@@ -8,7 +8,10 @@ RUN \
   apk add --no-cache ca-certificates git nodejs npm \
   && git clone https://github.com/qlonik/webhook2github /app \
   && git checkout ${VERSION} \
-  && npm ci
+  && npm ci \
+  && install -d -m 0755 -o kah -g kah \
+      /app/node_modules/.mf \
+      /app/node_modules/.cache
 
 USER kah
 
