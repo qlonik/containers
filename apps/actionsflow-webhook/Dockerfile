@@ -5,7 +5,7 @@ ARG VERSION
 ARG CHANNEL
 
 RUN \
-  apk add --no-cache ca-certificates git nodejs npm \
+  apk add --no-cache git nodejs npm \
   && git clone https://github.com/qlonik/webhook2github /app \
   && git checkout ${VERSION} \
   && npm ci \
