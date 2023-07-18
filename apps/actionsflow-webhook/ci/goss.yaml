@@ -1,0 +1,4 @@
+---
+file:
+  /app/package.json:
+    exists: true
