@@ -6,6 +6,12 @@ ARG CHANNEL
 
 RUN \
   apk add --no-cache git nodejs npm \
+    # dependencies for cloudflare workerd binary
+    && wget -qO /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
+    && wget -qO glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-2.35-r1.apk \
+    && apk add --no-cache libc6-compat gcompat \
+    && apk add --force-overwrite glibc.apk \
+    && rm -rf glibc.apk \
   && git clone https://github.com/qlonik/webhook2github /app \
   && git checkout ${VERSION} \
   && rm -rf .git \
