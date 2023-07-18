@@ -12,7 +12,7 @@ RUN \
     && apk add --no-cache libc6-compat gcompat \
     && apk add --force-overwrite glibc.apk \
     && rm -rf glibc.apk \
-  && git clone https://github.com/qlonik/webhook2github /app \
+  && git clone https://github.com/qlonik/actionsflow-webhook2github /app \
   && git checkout ${VERSION} \
   && rm -rf .git \
   && npm ci \
@@ -24,4 +24,4 @@ USER kah
 
 CMD ["npm", "start", "--", "--ip", "0.0.0.0"]
 
-LABEL org.opencontainers.image.source="https://github.com/qlonik/webhook2github"
+LABEL org.opencontainers.image.source="https://github.com/qlonik/actionsflow-webhook2github"

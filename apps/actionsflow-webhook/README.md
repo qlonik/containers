@@ -2,7 +2,8 @@
 
 > **Warning** Do not expose this to the Internet!
 
-This image packages https://github.com/qlonik/webhook2github project.
+This image packages https://github.com/qlonik/actionsflow-webhook2github
+project.
 
 This image runs webhook that forwards the request to a specified github
 repository and executes a specified
@@ -24,4 +25,5 @@ The following variables can be set via above-mentioned `.dev.vars` file.
 If the variable `GITHUB_REPO` is set, then the `<owner>/<repo>` can be ommitted
 from the webhook URL. If the variable `GITHUB_TOKEN` is set, then the `__token`
 parameter can be ommitted from the webhook URL. Otherwise, the webhook works as
-described on the project page: https://github.com/qlonik/webhook2github.
+described on the project page:
+https://github.com/qlonik/actionsflow-webhook2github.
