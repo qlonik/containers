@@ -25,7 +25,7 @@ if [[ "${MINIO_USER_RESET}" == "true" && "${MINIO_RESET_CONFIRM}" == "YES" ]]; t
   printf "\e[1;32m%-6s\e[m\n" "Removing user '${MINIO_BUCKET_USER}' ..."
   mc admin user remove minio "${MINIO_BUCKET_USER}"
 fi
-user_exists=$(mc admin user info minio "${MINIO_BUCKET_USER}" 2&>/dev/null)
+user_exists=$(mc admin user info minio "${MINIO_BUCKET_USER}" 2>/dev/null)
 if [[ -z "${user_exists}" ]]; then
   printf "\e[1;32m%-6s\e[m\n" "Creating user '${MINIO_BUCKET_USER}' ..."
   mc admin user add minio "${MINIO_BUCKET_USER}" "${MINIO_BUCKET_PASSWORD}"
@@ -49,7 +49,7 @@ if [[ "${MINIO_USER_POLICY_RESET}" == "true" && "${MINIO_RESET_CONFIRM}" == "YES
   printf "\e[1;32m%-6s\e[m\n" "Removing the policy between user '${MINIO_BUCKET_USER}' and bucket '${MINIO_BUCKET_NAME}' ..."
   mc admin policy remove minio "${MINIO_BUCKET_NAME}-private"
 fi
-policy_exists=$(mc admin policy info minio "${MINIO_BUCKET_NAME}-private" 2&>/dev/null)
+policy_exists=$(mc admin policy info minio "${MINIO_BUCKET_NAME}-private" 2>/dev/null)
 if [[ -z "${policy_exists}" ]]; then
   if [[ -z "${MINIO_USER_POLICY}" ]]; then
     printf "\e[1;32m%-6s\e[m\n" "Create default policy ..."
