@@ -15,9 +15,6 @@ jobs:
     name: "Compare with upstream"
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Tools
-        run: npm install -g zx
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -37,7 +34,7 @@ jobs:
 
       - name: Get differences
         id: differences
-        run: ./.github/scripts/upstream-differences.mjs upstream/${{ steps.upstream.outputs.main_branch }}
+        run: npm exec --yes --package=zx -- ./.github/scripts/upstream-differences.mjs upstream/${{ steps.upstream.outputs.main_branch }}
 
       - # TODO: switch back to upstream, if https://github.com/JasonEtco/create-an-issue/pull/152 is merged
         uses: qlonik/create-an-issue@v1
