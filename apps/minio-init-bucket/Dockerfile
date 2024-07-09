@@ -1,4 +1,4 @@
-FROM ghcr.io/onedr0p/alpine:rolling@sha256:3fbc581cb0fe29830376161ae026e2a765dcc11e1747477fe9ebf155720b8638
+FROM docker.io/library/alpine:3.20
 
 ARG TARGETPLATFORM
 ARG VERSION
@@ -9,15 +9,17 @@ ENV MINIO_USER_RESET="false" \
     MINIO_ANON_POLICY_RESET="false" \
     MINIO_BUCKET_RESET="false" \
     MINIO_RESET_CONFIRM="NO" \
-    MC_CONFIG_DIR="/config"
+    MC_CONFIG_DIR="/app"
 
 RUN \
-  curl -fsSL -o /usr/local/bin/mc "https://dl.min.io/client/mc/release/${TARGETPLATFORM//\//-}/archive/mc.${VERSION}" \
+  apk add --no-cache curl \
+  && curl -fsSL -o /usr/local/bin/mc "https://dl.min.io/client/mc/release/${TARGETPLATFORM//\//-}/archive/mc.${VERSION}" \
   && chmod +x /usr/local/bin/mc
 
-USER kah
-
 COPY ./apps/minio-init-bucket/entrypoint.sh /entrypoint.sh
+
+USER root
+WORKDIR /app
 
 CMD ["/entrypoint.sh"]
 

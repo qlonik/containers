@@ -1,8 +1,11 @@
-FROM ghcr.io/onedr0p/alpine:rolling@sha256:3fbc581cb0fe29830376161ae026e2a765dcc11e1747477fe9ebf155720b8638
+FROM docker.io/library/alpine:3.20
 
 ARG TARGETPLATFORM
 ARG VERSION
 ARG CHANNEL
+
+USER root
+WORKDIR /app
 
 RUN \
   apk add --no-cache git nodejs npm \
@@ -16,11 +19,9 @@ RUN \
   && git checkout ${VERSION} \
   && rm -rf .git \
   && npm ci \
-  && install -d -m 0755 -o kah -g kah \
+  && install -d -m 0777 -o root -g root \
       /app/node_modules/.mf \
       /app/node_modules/.cache
-
-USER kah
 
 CMD ["npm", "start", "--", "--ip", "0.0.0.0"]
 
