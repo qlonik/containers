@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:20
+FROM docker.io/library/alpine:20240606
 
 ARG TARGETPLATFORM
 ARG VERSION
