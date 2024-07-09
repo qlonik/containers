@@ -1,4 +1,4 @@
-FROM ghcr.io/onedr0p/alpine:rolling@sha256:3fbc581cb0fe29830376161ae026e2a765dcc11e1747477fe9ebf155720b8638
+FROM docker.io/library/alpine:20
 
 ARG TARGETPLATFORM
 ARG VERSION
@@ -20,7 +20,8 @@ RUN \
       /app/node_modules/.mf \
       /app/node_modules/.cache
 
-USER kah
+USER root
+WORKDIR /app
 
 CMD ["npm", "start", "--", "--ip", "0.0.0.0"]
 
